@@ -1,6 +1,6 @@
 //
 //  UserProfileRequest.swift
-//  REDSwift
+//  GazelleKit
 //
 //  Created by Tarball on 12/2/22.
 //

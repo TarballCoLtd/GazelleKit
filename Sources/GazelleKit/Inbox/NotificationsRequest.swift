@@ -1,6 +1,6 @@
 //
 //  NotificationsRequest.swift
-//  REDSwift
+//  GazelleKit
 //
 //  Created by Tarball on 12/3/22.
 //

@@ -1,6 +1,6 @@
 //
 //  ConversationRequest.swift
-//  REDSwift
+//  GazelleKit
 //
 //  Created by Tarball on 12/4/22.
 //

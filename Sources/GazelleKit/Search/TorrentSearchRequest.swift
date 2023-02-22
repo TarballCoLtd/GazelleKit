@@ -1,6 +1,6 @@
 //
 //  TorrentSearchRequest.swift
-//  REDSwift
+//  GazelleKit
 //
 //  Created by Tarball on 12/5/22.
 //

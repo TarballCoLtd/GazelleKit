@@ -1,6 +1,6 @@
 //
 //  ArtistSearchRequest.swift
-//  REDSwift
+//  GazelleKit
 //
 //  Created by Tarball on 12/6/22.
 //

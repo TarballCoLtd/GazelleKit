@@ -1,6 +1,6 @@
 //
-//  RedactedAPI.swift
-//  REDSwift
+//  GazelleKit.swift
+//  GazelleKit
 //
 //  Created by Tarball on 12/3/22.
 //
