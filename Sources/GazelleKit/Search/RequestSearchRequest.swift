@@ -95,7 +95,7 @@ public class Request: Identifiable {
     public let fillerName: String
     public let torrentId: Int
     public let timeFilled: Date?
-    public init(_ request: GazelleAPI.RedactedRequestSearchResult) {
+    internal init(_ request: GazelleAPI.RedactedRequestSearchResult) {
         requestId = request.requestId
         requestorId = request.requestorId
         requestorName = request.requestorName
@@ -139,7 +139,7 @@ public class RequestSearchResults {
     public let successful: Bool
     public let requestJson: [String: Any]?
     public let requestSize: Int
-    public init(results: GazelleAPI.RedactedRequestSearch, requestJson: [String: Any]?, requestSize: Int) {
+    internal init(results: GazelleAPI.RedactedRequestSearch, requestJson: [String: Any]?, requestSize: Int) {
         currentPage = results.response.currentPage
         pages = results.response.pages
         var temp: [Request] = []

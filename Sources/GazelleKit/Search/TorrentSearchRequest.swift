@@ -105,7 +105,7 @@ public class TorrentGroup: Identifiable {
     public let totalSeeders: Int?
     public let totalLeechers: Int?
     public let torrents: [Torrent]
-    public init(_ group: GazelleAPI.RedactedTorrentSearchResultsResponseResults) {
+    internal init(_ group: GazelleAPI.RedactedTorrentSearchResultsResponseResults) {
         cover = group.cover
         groupId = group.groupId
         groupName = group.groupName
@@ -134,11 +134,11 @@ public class Artist: Identifiable {
     public let id = UUID()
     public let artistId: Int
     public let name: String
-    public init(_ artist: GazelleAPI.RedactedTorrentSearchArtist) {
+    internal init(_ artist: GazelleAPI.RedactedTorrentSearchArtist) {
         artistId = artist.id
         name = artist.name
     }
-    public init(_ artist: GazelleAPI.RedactedRequestSearchArtist) {
+    internal init(_ artist: GazelleAPI.RedactedRequestSearchArtist) {
         artistId = 0
         name = artist.name
     }
@@ -172,7 +172,7 @@ public class Torrent: Identifiable {
     public let isFreeload: Bool
     public let isPersonalFreeleech: Bool
     public let canUseToken: Bool
-    public init(_ torrent: GazelleAPI.RedactedTorrentSearchTorrent) {
+    internal init(_ torrent: GazelleAPI.RedactedTorrentSearchTorrent) {
         torrentId = torrent.torrentId
         editionId = torrent.editionId
         var temp: [Artist] = []
@@ -215,7 +215,7 @@ public class TorrentSearchResults {
     public let requestJson: [String: Any]?
     public let requestSize: Int
     public let successful: Bool
-    public init(results: GazelleAPI.RedactedTorrentSearchResults, requestJson: [String: Any]?, requestSize: Int) {
+    internal init(results: GazelleAPI.RedactedTorrentSearchResults, requestJson: [String: Any]?, requestSize: Int) {
         currentPage = results.response.currentPage
         pages = results.response.pages
         var temp: [TorrentGroup] = []
