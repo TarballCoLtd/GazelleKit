@@ -52,7 +52,7 @@ public class UserSearchResult: Identifiable {
     public let warned: Bool?
     public let enabled: Bool
     public let `class`: String
-    public init(_ result: GazelleAPI.RedactedUserSearchResult) {
+    internal init(_ result: GazelleAPI.RedactedUserSearchResult) {
         userId = result.userId
         username = result.username
         donor = result.donor
@@ -69,7 +69,7 @@ public class UserSearchResults {
     public let successful: Bool
     public let requestJson: [String: Any]?
     public let requestSize: Int
-    public init(results: GazelleAPI.RedactedUserSearch, requestJson: [String: Any]?, requestSize: Int) {
+    internal init(results: GazelleAPI.RedactedUserSearch, requestJson: [String: Any]?, requestSize: Int) {
         currentPage = results.response.currentPage
         pages = results.response.pages
         var temp: [UserSearchResult] = []
