@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 public extension GazelleAPI {
-    public func requestInbox(page: Int, type: Mailbox) async throws -> Inbox {
+    func requestInbox(page: Int, type: Mailbox) async throws -> Inbox {
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=inbox&page=\(page)&type=\(type.description)&sort=unread") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -23,7 +23,7 @@ public extension GazelleAPI {
         return try Inbox(inbox: decoder.decode(RedactedInbox.self, from: data), requestJson: json)
     }
     
-    public func requestInbox(page: Int, type: Mailbox, search: String, searchType: InboxSearchType) async throws -> Inbox {
+    func requestInbox(page: Int, type: Mailbox, search: String, searchType: InboxSearchType) async throws -> Inbox {
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=inbox&page=\(page)&type=\(type.description)&sort=unread&search=\(search)&searchtype=\(searchType.description)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

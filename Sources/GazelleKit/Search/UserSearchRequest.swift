@@ -8,7 +8,7 @@
 import Foundation
 
 public extension GazelleAPI {
-    public func requestUserSearchResults(term: String, page: Int) async throws -> UserSearchResults {
+    func requestUserSearchResults(term: String, page: Int) async throws -> UserSearchResults {
         guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { throw GazelleAPIError.urlParseError }
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=usersearch&search=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
@@ -46,13 +46,13 @@ public extension GazelleAPI {
 
 public class UserSearchResult: Identifiable {
     public let id = UUID()
-    let userId: Int
-    let username: String
-    let donor: Bool?
-    let warned: Bool?
-    let enabled: Bool
-    let `class`: String
-    init(_ result: GazelleAPI.RedactedUserSearchResult) {
+    public let userId: Int
+    public let username: String
+    public let donor: Bool?
+    public let warned: Bool?
+    public let enabled: Bool
+    public let `class`: String
+    public init(_ result: GazelleAPI.RedactedUserSearchResult) {
         userId = result.userId
         username = result.username
         donor = result.donor
@@ -63,13 +63,13 @@ public class UserSearchResult: Identifiable {
 }
 
 public class UserSearchResults {
-    let currentPage: Int?
-    let pages: Int?
-    var results: [UserSearchResult]
-    let successful: Bool
-    let requestJson: [String: Any]?
-    let requestSize: Int
-    init(results: GazelleAPI.RedactedUserSearch, requestJson: [String: Any]?, requestSize: Int) {
+    public let currentPage: Int?
+    public let pages: Int?
+    public var results: [UserSearchResult]
+    public let successful: Bool
+    public let requestJson: [String: Any]?
+    public let requestSize: Int
+    public init(results: GazelleAPI.RedactedUserSearch, requestJson: [String: Any]?, requestSize: Int) {
         currentPage = results.response.currentPage
         pages = results.response.pages
         var temp: [UserSearchResult] = []

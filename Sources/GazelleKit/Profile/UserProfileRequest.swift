@@ -8,14 +8,14 @@
 import Foundation
 
 public extension GazelleAPI {
-    public func requestUserProfile(user: String) async throws -> UserProfile {
+    func requestUserProfile(user: String) async throws -> UserProfile {
         if let user = Int(user) {
             return try await requestUserProfile(user: user)
         }
         throw GazelleAPIError.requestError
     }
     
-    public func requestUserProfile(user: Int) async throws -> UserProfile {
+    func requestUserProfile(user: Int) async throws -> UserProfile {
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=user&id=\(user)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 public extension GazelleAPI {
-    public func requestProfilePicture(_ link: String) async throws -> Image? {
+    func requestProfilePicture(_ link: String) async throws -> Image? {
         guard let url = URL(string: link) else { throw GazelleAPIError.urlParseError }
         let (data, _) = try await URLSession.shared.data(from: url)
         let image = NSImage(data: data)

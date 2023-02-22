@@ -8,7 +8,7 @@
 import Foundation
 
 public extension GazelleAPI {
-    public func requestRequestSearchResults(term: String, page: Int) async throws -> RequestSearchResults {
+    func requestRequestSearchResults(term: String, page: Int) async throws -> RequestSearchResults {
         guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { throw GazelleAPIError.urlParseError }
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=requests&search=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
@@ -95,7 +95,7 @@ public class Request: Identifiable {
     public let fillerName: String
     public let torrentId: Int
     public let timeFilled: Date?
-    init(_ request: GazelleAPI.RedactedRequestSearchResult) {
+    public init(_ request: GazelleAPI.RedactedRequestSearchResult) {
         requestId = request.requestId
         requestorId = request.requestorId
         requestorName = request.requestorName
@@ -139,7 +139,7 @@ public class RequestSearchResults {
     public let successful: Bool
     public let requestJson: [String: Any]?
     public let requestSize: Int
-    init(results: GazelleAPI.RedactedRequestSearch, requestJson: [String: Any]?, requestSize: Int) {
+    public init(results: GazelleAPI.RedactedRequestSearch, requestJson: [String: Any]?, requestSize: Int) {
         currentPage = results.response.currentPage
         pages = results.response.pages
         var temp: [Request] = []

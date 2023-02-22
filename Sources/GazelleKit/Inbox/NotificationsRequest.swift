@@ -8,7 +8,7 @@
 import Foundation
 
 public extension GazelleAPI {
-    public func requestNotifications(page: Int) async throws -> Notifications {
+    func requestNotifications(page: Int) async throws -> Notifications {
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=notifications&page=\(page)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -65,11 +65,11 @@ public extension GazelleAPI {
 }
 
 public class Notifications {
-    let successful: Bool
-    let currentPage: Int
-    let pages: Int
-    let newNotifications: Int
-    let notifications: [GazelleNotification]
+    public let successful: Bool
+    public let currentPage: Int
+    public let pages: Int
+    public let newNotifications: Int
+    public let notifications: [GazelleNotification]
     internal init(notifications: GazelleAPI.RedactedNotifications_Notifications, requestJson: [String: Any]?) {
         successful = notifications.status == "success"
         currentPage = notifications.response.currentPages
@@ -84,32 +84,32 @@ public class Notifications {
 }
 
 public class GazelleNotification {
-    let torrentId: Int
-    let groupId: Int
-    let groupName: String
-    let groupCategoryId: Int
-    let torrentTags: String
-    let size: Int
-    let fileCount: Int
-    let format: String
-    let encoding: String
-    let media: String
-    let scene: Bool
-    let groupYear: Int
-    let remasterYear: Int
-    let remasterTitle: String
-    let snatched: Int
-    let seeders: Int
-    let leechers: Int
-    let notificationTime: String
-    let hasLog: Bool
-    let hasCue: Bool
-    let logScore: Int
-    let freeTorrent: Bool
-    let isNeutralLeech: Bool
-    let isFreeload: Bool
-    let logInDb: Bool
-    let unread: Bool
+    public let torrentId: Int
+    public let groupId: Int
+    public let groupName: String
+    public let groupCategoryId: Int
+    public let torrentTags: String
+    public let size: Int
+    public let fileCount: Int
+    public let format: String
+    public let encoding: String
+    public let media: String
+    public let scene: Bool
+    public let groupYear: Int
+    public let remasterYear: Int
+    public let remasterTitle: String
+    public let snatched: Int
+    public let seeders: Int
+    public let leechers: Int
+    public let notificationTime: String
+    public let hasLog: Bool
+    public let hasCue: Bool
+    public let logScore: Int
+    public let freeTorrent: Bool
+    public let isNeutralLeech: Bool
+    public let isFreeload: Bool
+    public let logInDb: Bool
+    public let unread: Bool
     internal init(_ notification: GazelleAPI.RedactedNotification) {
         torrentId = notification.torrentId
         groupId = notification.groupId
