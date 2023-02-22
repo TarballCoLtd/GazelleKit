@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension GazelleAPI {
+public extension GazelleAPI {
     public func requestArtistSearchResults(term: String, page: Int) async throws -> TorrentSearchResults {
         guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { throw GazelleAPIError.urlParseError }
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=browse&artistname=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }

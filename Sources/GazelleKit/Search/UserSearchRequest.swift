@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension GazelleAPI {
+public extension GazelleAPI {
     public func requestUserSearchResults(term: String, page: Int) async throws -> UserSearchResults {
         guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { throw GazelleAPIError.urlParseError }
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=usersearch&search=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }

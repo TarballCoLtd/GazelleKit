@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension GazelleAPI {
+public extension GazelleAPI {
     public func requestNotifications(page: Int) async throws -> Notifications {
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=notifications&page=\(page)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)

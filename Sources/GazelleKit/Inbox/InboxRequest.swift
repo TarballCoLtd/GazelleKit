@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-extension GazelleAPI {
+public extension GazelleAPI {
     public func requestInbox(page: Int, type: Mailbox) async throws -> Inbox {
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=inbox&page=\(page)&type=\(type.description)&sort=unread") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension GazelleAPI {
+public extension GazelleAPI {
     public func requestUserProfile(user: String) async throws -> UserProfile {
         if let user = Int(user) {
             return try await requestUserProfile(user: user)
