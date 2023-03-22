@@ -20,3 +20,10 @@ public enum GazelleAPIError: Error {
     case requestError
     case networkError
 }
+
+public extension String {
+    var urlEncoded: String? {
+        addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)?
+            .replacingOccurrences(of: "&", with: "%26")
+    }
+}

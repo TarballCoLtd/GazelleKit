@@ -9,7 +9,7 @@ import Foundation
 
 public extension GazelleAPI {
     func requestRequestSearchResults(term: String, page: Int) async throws -> RequestSearchResults {
-        guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { throw GazelleAPIError.urlParseError }
+        guard let encodedTerm = term.urlEncoded else { throw GazelleAPIError.urlParseError }
         guard let url = URL(string: "https://redacted.ch/ajax.php?action=requests&search=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
