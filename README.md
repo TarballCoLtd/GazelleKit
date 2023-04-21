@@ -2,7 +2,7 @@
 
 A work-in-progress Swift library for interacting with Gazelle-based torrent trackers.
 
-Currently only officially supports RED, with more tracker support coming in the future.
+Currently only officially supports RED and OPS, with more tracker support coming in the future.
 
 ## Adding GazelleKit to your project
 
@@ -17,7 +17,7 @@ Select `File -> Add Packages...` in Xcode, then paste this repository's URL into
 import GazelleKit
 
 Task {
-    let gazelle = GazelleAPI("api key here")
+    let gazelle = GazelleAPI("api key here", tracker: .redacted)
     let personalProfile = try! await gazelle.requestPersonalProfile()
     let announcements = try! await gazelle.requestAnnouncements(perPage: 100)
     let searchResults = try! await gazelle.requestArtistSearchResults(term: "Pink Floyd", page: 1)
