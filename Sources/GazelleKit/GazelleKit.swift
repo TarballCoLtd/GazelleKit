@@ -10,9 +10,16 @@ import Combine
 
 public class GazelleAPI: ObservableObject {
     public var apiKey: String
-    public init(_ apiKey: String) {
+    public var tracker: GazelleTracker
+    public init(_ apiKey: String, tracker: GazelleTracker) {
         self.apiKey = apiKey
+        self.tracker = tracker
     }
+}
+
+public enum GazelleTracker: String { // do not include a forward slash at the end of a link, things will break
+    case redacted = "https://redacted.ch"
+    case orpheus = "https://orpheus.network"
 }
 
 public enum GazelleAPIError: Error {

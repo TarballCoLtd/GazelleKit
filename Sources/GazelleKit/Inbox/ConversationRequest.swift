@@ -9,7 +9,7 @@ import Foundation
 
 public extension GazelleAPI {
     func requestConversation(_ id: Int) async throws -> Conversation {
-        guard let url = URL(string: "https://redacted.ch/ajax.php?action=inbox&type=viewconv&id=\(id)") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker)/ajax.php?action=inbox&type=viewconv&id=\(id)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")

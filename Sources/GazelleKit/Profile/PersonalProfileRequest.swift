@@ -9,7 +9,7 @@ import Foundation
 
 public extension GazelleAPI {
     func requestPersonalProfile() async throws -> PersonalProfile {
-        guard let url = URL(string: "https://redacted.ch/ajax.php?action=index") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker)/ajax.php?action=index") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")
