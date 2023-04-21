@@ -10,7 +10,7 @@ import Combine
 
 public extension GazelleAPI {
     func requestInbox(page: Int, type: Mailbox) async throws -> Inbox {
-        guard let url = URL(string: "\(tracker)/ajax.php?action=inbox&page=\(page)&type=\(type.description)&sort=unread") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker.rawValue)/ajax.php?action=inbox&page=\(page)&type=\(type.description)&sort=unread") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")

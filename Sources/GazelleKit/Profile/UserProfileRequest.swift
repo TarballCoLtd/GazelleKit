@@ -16,7 +16,7 @@ public extension GazelleAPI {
     }
     
     func requestUserProfile(user: Int) async throws -> UserProfile {
-        guard let url = URL(string: "\(tracker)/ajax.php?action=user&id=\(user)") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker.rawValue)/ajax.php?action=user&id=\(user)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")

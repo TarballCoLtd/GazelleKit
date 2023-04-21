@@ -9,7 +9,7 @@ import Foundation
 
 public extension GazelleAPI {
     func requestNotifications(page: Int) async throws -> Notifications {
-        guard let url = URL(string: "\(tracker)/ajax.php?action=notifications&page=\(page)") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker.rawValue)/ajax.php?action=notifications&page=\(page)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")

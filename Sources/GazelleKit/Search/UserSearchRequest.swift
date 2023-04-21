@@ -10,7 +10,7 @@ import Foundation
 public extension GazelleAPI {
     func requestUserSearchResults(term: String, page: Int) async throws -> UserSearchResults {
         guard let encodedTerm = term.urlEncoded else { throw GazelleAPIError.urlParseError }
-        guard let url = URL(string: "\(tracker)/ajax.php?action=usersearch&search=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker.rawValue)/ajax.php?action=usersearch&search=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")
