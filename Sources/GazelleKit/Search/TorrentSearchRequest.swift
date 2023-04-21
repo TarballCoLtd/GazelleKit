@@ -194,8 +194,11 @@ public class Torrent: Identifiable {
         vanityHouse = torrent.vanityHouse
         fileCount = torrent.fileCount
         let formatter = DateFormatter()
+        #if DEBUG
+        print("GazelleKit [DEBUG]: torrent date string is \(torrent.time)")
+        #endif
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        time = formatter.date(from: torrent.time)!
+        time = formatter.date(from: torrent.time) ?? .distantPast
         size = torrent.size
         snatches = torrent.snatches
         seeders = torrent.seeders
