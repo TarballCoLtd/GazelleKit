@@ -19,7 +19,6 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        print("youre ultra fucked")
         return try Announcements(announcements: decoder.decode(RedactedAnnouncements.self, from: data), requestJson: json)
     }
 
