@@ -34,7 +34,7 @@ public extension GazelleAPI {
     internal struct RedactedAnnouncement: Codable {
         var newsId: Int
         var title: String
-        var bbBody: String
+        var bbBody: String?
         var body: String
         var newsTime: String
     }
@@ -44,7 +44,7 @@ public class Announcement: Identifiable {
     public let id = UUID()
     public let announcementId: Int
     public let title: String
-    public let bbBody: String
+    public let bbBody: String?
     public let body: String
     public let time: Date?
     internal init(_ announcement: GazelleAPI.RedactedAnnouncement) {
