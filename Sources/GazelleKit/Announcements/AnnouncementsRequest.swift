@@ -30,6 +30,17 @@ public extension GazelleAPI {
 
     internal struct RedactedAnnouncementsResponse: Codable {
         var announcements: [RedactedAnnouncement]
+        var blogPosts: [OrpheusBlogPost]
+    }
+    
+    internal struct OrpheusBlogPost: Codable {
+        var author: Int
+        var bbBody: String
+        var blogId: Int
+        var blogTime: String
+        var body: String
+        var threadId: Int
+        var title: String
     }
 
     internal struct RedactedAnnouncement: Codable {
@@ -60,9 +71,31 @@ public class Announcement: Identifiable {
     }
 }
 
+public class BlogPost: Identifiable {
+    public let id = UUID()
+    public let author: Int
+    public let bbBody: String
+    public let blogId: Int
+    public let blogTime: String
+    public let body: String
+    public let threadId: Int
+    public let title: String
+    
+    internal init(_ blogPost: GazelleAPI.OrpheusBlogPost) {
+        author = blogPost.author
+        bbBody = blogPost.bbBody
+        blogId = blogPost.blogId
+        blogTime = blogPost.blogTime
+        body = blogPost.body
+        threadId = blogPost.threadId
+        title = blogPost.title
+    }
+}
+
 public class Announcements: Identifiable {
     public let id = UUID()
     public var announcements: [Announcement]
+    public var blogPosts: [BlogPost]
     public let successful: Bool
     public let requestJson: [String: Any]?
     
@@ -71,7 +104,12 @@ public class Announcements: Identifiable {
         for announcement in announcements.response.announcements {
             temp.append(Announcement(announcement))
         }
+        var temp2: [BlogPost] = []
+        for blogPost in announcements.response.blogPosts {
+            temp2.append(BlogPost(blogPost))
+        }
         self.announcements = temp
+        self.blogPosts = temp2
         successful = announcements.status == "success"
         self.requestJson = requestJson
     }
