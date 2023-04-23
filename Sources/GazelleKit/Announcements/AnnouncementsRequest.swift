@@ -116,7 +116,7 @@ public class Announcements: Identifiable {
     
     public func containsNullAnnouncements() -> Bool {
         for announcement in announcements {
-            if announcementId == nil || title == nil || bbBody == nil || time == nil {
+            if announcement.announcementId == nil || announcement.title == nil || announcement.bbBody == nil || announcement.time == nil {
                 return true
             }
         }
