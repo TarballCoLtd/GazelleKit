@@ -26,6 +26,7 @@ public enum GazelleAPIError: Error {
     case urlParseError
     case requestError
     case networkError
+    case unknownTrackerSelectedError
 }
 
 public extension String {
