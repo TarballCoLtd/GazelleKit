@@ -113,4 +113,13 @@ public class Announcements: Identifiable {
         successful = announcements.status == "success"
         self.requestJson = requestJson
     }
+    
+    public func containsNullAnnouncements() -> Bool {
+        for announcement in announcements {
+            if announcementId == nil || title == nil || bbBody == nil || time == nil {
+                return true
+            }
+        }
+        return false
+    }
 }
