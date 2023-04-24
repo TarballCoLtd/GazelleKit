@@ -20,7 +20,7 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        return try TorrentSearchResults(results: decoder.decode(RedactedTorrentSearchResults.self, from: data), requestJson: json, requestSize: data.count)
+        return try TorrentSearchResults(results: decoder.decode(RedactedTorrentSearchResults.self, from: data), requestJson: json, requestSize: data.count, tracker: tracker)
     }
     
     internal struct RedactedTorrentSearchResults: Codable {
@@ -105,7 +105,7 @@ public class TorrentGroup: Identifiable {
     public let totalSeeders: Int?
     public let totalLeechers: Int?
     public let torrents: [Torrent]
-    internal init(_ group: GazelleAPI.RedactedTorrentSearchResultsResponseResults) {
+    internal init(_ group: GazelleAPI.RedactedTorrentSearchResultsResponseResults, tracker: GazelleTracker) {
         cover = group.cover
         groupId = group.groupId
         groupName = group.groupName
@@ -115,7 +115,17 @@ public class TorrentGroup: Identifiable {
         vanityHouse = group.vanityHouse
         groupYear = group.groupYear
         releaseType = group.releaseType
-        groupTime = Date(timeIntervalSince1970: Double(group.groupTime ?? "0")!)
+        if tracker == .orpheus {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let groupTime = group.groupTime {
+                self.groupTime = formatter.date(from: groupTime)
+            } else {
+                self.groupTime = .distantPast
+            }
+        } else {
+            groupTime = Date(timeIntervalSince1970: Double(group.groupTime ?? "0")!)
+        }
         maxSize = group.maxSize
         totalSnatched = group.totalSnatched
         totalSeeders = group.totalSeeders
@@ -219,12 +229,12 @@ public class TorrentSearchResults {
     public let requestJson: [String: Any]?
     public let requestSize: Int
     public let successful: Bool
-    internal init(results: GazelleAPI.RedactedTorrentSearchResults, requestJson: [String: Any]?, requestSize: Int) {
+    internal init(results: GazelleAPI.RedactedTorrentSearchResults, requestJson: [String: Any]?, requestSize: Int, tracker: GazelleTracker) {
         currentPage = results.response.currentPage
         pages = results.response.pages
         var temp: [TorrentGroup] = []
         for group in results.response.results {
-            temp.append(TorrentGroup(group))
+            temp.append(TorrentGroup(group, tracker: tracker))
         }
         groups = temp
         successful = results.status == "success"
