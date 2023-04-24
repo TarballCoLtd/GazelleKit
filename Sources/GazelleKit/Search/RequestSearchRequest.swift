@@ -116,8 +116,8 @@ public extension GazelleAPI {
         var catalogueNumber: String
         var releaseType: Int?
         var bitrateList: [String]
-        var formatList: [String]
-        var mediaList: [String]
+        var formatList: [Int: String]
+        var mediaList: [Int: String]
         var logCue: String
         var isFilled: Bool
         var fillerId: Int
@@ -226,8 +226,16 @@ public class Request: Identifiable {
             releaseType = ""
         }
         bitrateList = request.bitrateList
-        formatList = request.formatList
-        mediaList = request.mediaList
+        var temp2: [String] = []
+        var temp3: [String] = []
+        for (_, format) in request.formatList {
+            temp2.append(format)
+        }
+        for (_, media) in request.mediaList {
+            temp3.append(media)
+        }
+        formatList = temp2
+        mediaList = temp3
         logCue = request.logCue
         isFilled = request.isFilled
         fillerId = request.fillerId
