@@ -57,7 +57,7 @@ public extension GazelleAPI {
         var editionId: Int
         var artists: [RedactedTorrentSearchArtist]
         var remastered: Bool
-        var remasterYear: Int
+        var remasterYear: Int?
         var remasterCatalogueNumber: String
         var remasterTitle: String
         var media: String
@@ -150,7 +150,7 @@ public class Torrent: Identifiable {
     public let editionId: Int
     public let artists: [Artist]
     public let remastered: Bool
-    public let remasteredYear: Int
+    public let remasteredYear: Int?
     public let remasterCatalogueNumber: String
     public let remasterTitle: String
     public let media: String
