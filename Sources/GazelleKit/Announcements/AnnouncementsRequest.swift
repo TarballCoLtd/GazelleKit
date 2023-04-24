@@ -34,7 +34,6 @@ public extension GazelleAPI {
     }
     
     internal struct OrpheusBlogPost: Codable {
-        var author: Int
         var bbBody: String
         var blogId: Int
         var blogTime: String
@@ -73,7 +72,6 @@ public class Announcement: Identifiable {
 
 public class BlogPost: Identifiable {
     public let id = UUID()
-    public let author: Int
     public let bbBody: String
     public let blogId: Int
     public let time: Date?
@@ -82,7 +80,6 @@ public class BlogPost: Identifiable {
     public let title: String
     
     internal init(_ blogPost: GazelleAPI.OrpheusBlogPost) {
-        author = blogPost.author
         bbBody = blogPost.bbBody
         blogId = blogPost.blogId
         let formatter = DateFormatter()
