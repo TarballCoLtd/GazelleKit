@@ -20,7 +20,7 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        return try Inbox(inbox: decoder.decode(RedactedInbox.self, from: data), requestJson: json)
+        return try Inbox(inbox: decoder.decode(RedactedInbox.self, from: data), requestJson: json, tracker: tracker)
     }
     
     func requestInbox(page: Int, type: Mailbox, search: String, searchType: InboxSearchType) async throws -> Inbox {
@@ -34,7 +34,7 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        return try Inbox(inbox: decoder.decode(RedactedInbox.self, from: data), requestJson: json)
+        return try Inbox(inbox: decoder.decode(RedactedInbox.self, from: data), requestJson: json, tracker: tracker)
     }
     
     internal struct RedactedInbox: Codable {
@@ -124,7 +124,7 @@ public class Inbox {
     public let conversations: [InboxConversation]
     public let successful: Bool
     public let requestJson: [String: Any]?
-    internal init(inbox: GazelleAPI.RedactedInbox, requestJson: [String: Any]?) {
+    internal init(inbox: GazelleAPI.RedactedInbox, requestJson: [String: Any]?, tracker: GazelleTracker) {
         currentPage = inbox.response.currentPage
         pages = inbox.response.pages
         successful = inbox.status == "success"
