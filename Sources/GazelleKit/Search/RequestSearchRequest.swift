@@ -108,7 +108,7 @@ public extension GazelleAPI {
         var releaseType: String?
         var bitrateList: [String]
         var formatList: [String]
-        var mediaList: [String]?
+        var mediaList: [String]
         var logCue: String
         var isFilled: Bool
         var fillerId: Int
@@ -136,7 +136,6 @@ public extension GazelleAPI {
         var releaseType: Int?
         var bitrateList: [String]
         var formatList: [Int: String]
-        var mediaList: [Int: String]?
         var logCue: String
         var isFilled: Bool
         var fillerId: Int
@@ -164,7 +163,6 @@ public extension GazelleAPI {
         var releaseType: Int?
         var bitrateList: [String]
         var formatList: [Int: String]
-        var mediaList: [String]
         var logCue: String
         var isFilled: Bool
         var fillerId: Int
@@ -199,7 +197,6 @@ public class Request: Identifiable {
     public let releaseType: String?
     public let bitrateList: [String]
     public let formatList: [String]
-    public let mediaList: [String]
     public let logCue: String
     public let isFilled: Bool
     public let fillerId: Int
@@ -234,11 +231,6 @@ public class Request: Identifiable {
         releaseType = request.releaseType
         bitrateList = request.bitrateList
         formatList = request.formatList
-        if let list = request.mediaList {
-            mediaList = list
-        } else {
-            mediaList = []
-        }
         logCue = request.logCue
         isFilled = request.isFilled
         fillerId = request.fillerId
@@ -278,17 +270,8 @@ public class Request: Identifiable {
         }
         bitrateList = request.bitrateList
         var temp2: [String] = []
-        var temp3: [String] = []
         for (_, format) in request.formatList {
             temp2.append(format)
-        }
-        if let list = request.mediaList {
-            for (_, media) in list {
-                temp3.append(media)
-            }
-            mediaList = temp3
-        } else {
-            mediaList = []
         }
         formatList = temp2
         logCue = request.logCue
@@ -334,7 +317,6 @@ public class Request: Identifiable {
             temp2.append(format)
         }
         formatList = temp2
-        mediaList = request.mediaList
         logCue = request.logCue
         isFilled = request.isFilled
         fillerId = request.fillerId
