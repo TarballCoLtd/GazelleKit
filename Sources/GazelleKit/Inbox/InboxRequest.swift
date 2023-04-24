@@ -54,7 +54,7 @@ public extension GazelleAPI {
         var unread: Bool
         var sticky: Bool
         var forwardedId: Int
-        var forwardedName: String
+        var forwardedName: String?
         var senderId: Int
         var username: String
         var donor: Bool
@@ -95,7 +95,7 @@ public class InboxConversation: Identifiable, ObservableObject {
     public let unread: Bool
     public let sticky: Bool
     public let forwardedId: Int
-    public let forwardedName: String
+    public let forwardedName: String?
     public let senderId: Int
     public let username: String
     public let donor: Bool
