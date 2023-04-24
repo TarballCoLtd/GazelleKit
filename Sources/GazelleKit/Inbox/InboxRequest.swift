@@ -10,7 +10,7 @@ import Combine
 
 public extension GazelleAPI {
     func requestInbox(page: Int, type: Mailbox) async throws -> Inbox {
-        guard let url = URL(string: "https://redacted.ch/ajax.php?action=inbox&page=\(page)&type=\(type.description)&sort=unread") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker.rawValue)/ajax.php?action=inbox&page=\(page)&type=\(type.description)&sort=unread") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")
@@ -20,7 +20,7 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        return try Inbox(inbox: decoder.decode(RedactedInbox.self, from: data), requestJson: json)
+        return try Inbox(inbox: decoder.decode(RedactedInbox.self, from: data), requestJson: json, tracker: tracker)
     }
     
     func requestInbox(page: Int, type: Mailbox, search: String, searchType: InboxSearchType) async throws -> Inbox {
@@ -34,7 +34,7 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        return try Inbox(inbox: decoder.decode(RedactedInbox.self, from: data), requestJson: json)
+        return try Inbox(inbox: decoder.decode(RedactedInbox.self, from: data), requestJson: json, tracker: tracker)
     }
     
     internal struct RedactedInbox: Codable {
@@ -54,7 +54,7 @@ public extension GazelleAPI {
         var unread: Bool
         var sticky: Bool
         var forwardedId: Int
-        var forwardedName: String
+        var forwardedName: String?
         var senderId: Int
         var username: String
         var donor: Bool
@@ -95,7 +95,7 @@ public class InboxConversation: Identifiable, ObservableObject {
     public let unread: Bool
     public let sticky: Bool
     public let forwardedId: Int
-    public let forwardedName: String
+    public let forwardedName: String?
     public let senderId: Int
     public let username: String
     public let donor: Bool
@@ -124,7 +124,7 @@ public class Inbox {
     public let conversations: [InboxConversation]
     public let successful: Bool
     public let requestJson: [String: Any]?
-    internal init(inbox: GazelleAPI.RedactedInbox, requestJson: [String: Any]?) {
+    internal init(inbox: GazelleAPI.RedactedInbox, requestJson: [String: Any]?, tracker: GazelleTracker) {
         currentPage = inbox.response.currentPage
         pages = inbox.response.pages
         successful = inbox.status == "success"
@@ -134,6 +134,6 @@ public class Inbox {
         for conversation in inbox.response.messages {
             conversations.append(InboxConversation(conversation))
         }
-        self.conversations = conversations
+        self.conversations = tracker == .orpheus ? conversations.reversed() : conversations
     }
 }

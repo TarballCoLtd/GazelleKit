@@ -10,7 +10,7 @@ import Foundation
 public extension GazelleAPI {
     func requestArtistSearchResults(term: String, page: Int) async throws -> TorrentSearchResults {
         guard let encodedTerm = term.urlEncoded else { throw GazelleAPIError.urlParseError }
-        guard let url = URL(string: "https://redacted.ch/ajax.php?action=browse&artistname=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker.rawValue)/ajax.php?action=browse&artistname=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")
@@ -20,6 +20,6 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        return try TorrentSearchResults(results: decoder.decode(RedactedTorrentSearchResults.self, from: data), requestJson: json, requestSize: data.count)
+        return try TorrentSearchResults(results: decoder.decode(RedactedTorrentSearchResults.self, from: data), requestJson: json, requestSize: data.count, tracker: tracker)
     }
 }

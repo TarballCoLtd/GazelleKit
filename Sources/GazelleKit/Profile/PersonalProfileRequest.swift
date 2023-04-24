@@ -8,8 +8,9 @@
 import Foundation
 
 public extension GazelleAPI {
+    
     func requestPersonalProfile() async throws -> PersonalProfile {
-        guard let url = URL(string: "https://redacted.ch/ajax.php?action=index") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker.rawValue)/ajax.php?action=index") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")
@@ -32,7 +33,7 @@ public extension GazelleAPI {
         var id: Int
         var authkey: String
         var passkey: String
-        var api_version: String
+        var api_version: String?
         var notifications: RedactedNotifications_PersonalProfile
         var userstats: RedactedUserStats_PersonalProfile
     }
@@ -57,12 +58,13 @@ public extension GazelleAPI {
 public class PersonalProfile: Profile {
     public let authKey: String
     public let passkey: String
-    public let apiVersion: String
+    public let apiVersion: String?
     public let messages: Int
     public let notifications: Int
     public let newAnnouncement: Bool
     public let newBlog: Bool
     public let newSubscriptions: Bool
+    
     internal init(profile: GazelleAPI.RedactedPersonalProfile, requestJson: [String: Any]?) {
         authKey = profile.response.authkey
         passkey = profile.response.passkey

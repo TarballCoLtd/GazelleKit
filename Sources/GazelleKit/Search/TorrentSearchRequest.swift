@@ -10,7 +10,7 @@ import Foundation
 public extension GazelleAPI {
     func requestTorrentSearchResults(term: String, page: Int) async throws -> TorrentSearchResults {
         guard let encodedTerm = term.urlEncoded else { throw GazelleAPIError.urlParseError }
-        guard let url = URL(string: "https://redacted.ch/ajax.php?action=browse&searchstr=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }
+        guard let url = URL(string: "\(tracker.rawValue)/ajax.php?action=browse&searchstr=\(encodedTerm)&page=\(page)") else { throw GazelleAPIError.urlParseError }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")
@@ -20,7 +20,7 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        return try TorrentSearchResults(results: decoder.decode(RedactedTorrentSearchResults.self, from: data), requestJson: json, requestSize: data.count)
+        return try TorrentSearchResults(results: decoder.decode(RedactedTorrentSearchResults.self, from: data), requestJson: json, requestSize: data.count, tracker: tracker)
     }
     
     internal struct RedactedTorrentSearchResults: Codable {
@@ -36,7 +36,7 @@ public extension GazelleAPI {
     
     internal struct RedactedTorrentSearchResultsResponseResults: Codable {
         var cover: String?
-        var groupId: Int
+        var groupId: String
         var groupName: String
         var artist: String?
         var tags: [String]
@@ -57,7 +57,7 @@ public extension GazelleAPI {
         var editionId: Int
         var artists: [RedactedTorrentSearchArtist]
         var remastered: Bool
-        var remasterYear: Int
+        var remasterYear: Int?
         var remasterCatalogueNumber: String
         var remasterTitle: String
         var media: String
@@ -76,7 +76,7 @@ public extension GazelleAPI {
         var leechers: Int
         var isFreeleech: Bool
         var isNeutralLeech: Bool
-        var isFreeload: Bool
+        var isFreeload: Bool?
         var isPersonalFreeleech: Bool
         var canUseToken: Bool
     }
@@ -91,7 +91,7 @@ public extension GazelleAPI {
 public class TorrentGroup: Identifiable {
     public let id = UUID()
     public let cover: String?
-    public let groupId: Int
+    public let groupId: String
     public let groupName: String
     public let artist: String?
     public let tags: [String]
@@ -105,7 +105,7 @@ public class TorrentGroup: Identifiable {
     public let totalSeeders: Int?
     public let totalLeechers: Int?
     public let torrents: [Torrent]
-    internal init(_ group: GazelleAPI.RedactedTorrentSearchResultsResponseResults) {
+    internal init(_ group: GazelleAPI.RedactedTorrentSearchResultsResponseResults, tracker: GazelleTracker) {
         cover = group.cover
         groupId = group.groupId
         groupName = group.groupName
@@ -115,7 +115,17 @@ public class TorrentGroup: Identifiable {
         vanityHouse = group.vanityHouse
         groupYear = group.groupYear
         releaseType = group.releaseType
-        groupTime = Date(timeIntervalSince1970: Double(group.groupTime ?? "0")!)
+        if tracker == .orpheus {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let groupTime = group.groupTime {
+                self.groupTime = formatter.date(from: groupTime)
+            } else {
+                self.groupTime = .distantPast
+            }
+        } else {
+            groupTime = Date(timeIntervalSince1970: Double(group.groupTime ?? "0")!)
+        }
         maxSize = group.maxSize
         totalSnatched = group.totalSnatched
         totalSeeders = group.totalSeeders
@@ -150,7 +160,7 @@ public class Torrent: Identifiable {
     public let editionId: Int
     public let artists: [Artist]
     public let remastered: Bool
-    public let remasteredYear: Int
+    public let remasteredYear: Int?
     public let remasterCatalogueNumber: String
     public let remasterTitle: String
     public let media: String
@@ -195,14 +205,18 @@ public class Torrent: Identifiable {
         fileCount = torrent.fileCount
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        time = formatter.date(from: torrent.time)!
+        time = formatter.date(from: torrent.time) ?? .distantPast
         size = torrent.size
         snatches = torrent.snatches
         seeders = torrent.seeders
         leechers = torrent.leechers
         isFreeleech = torrent.isFreeleech
         isNeutralLeech = torrent.isNeutralLeech
-        isFreeload = torrent.isFreeload
+        if let freeload = torrent.isFreeload {
+            isFreeload = freeload
+        } else {
+            isFreeload = false
+        }
         isPersonalFreeleech = torrent.isPersonalFreeleech
         canUseToken = torrent.canUseToken
     }
@@ -215,12 +229,12 @@ public class TorrentSearchResults {
     public let requestJson: [String: Any]?
     public let requestSize: Int
     public let successful: Bool
-    internal init(results: GazelleAPI.RedactedTorrentSearchResults, requestJson: [String: Any]?, requestSize: Int) {
+    internal init(results: GazelleAPI.RedactedTorrentSearchResults, requestJson: [String: Any]?, requestSize: Int, tracker: GazelleTracker) {
         currentPage = results.response.currentPage
         pages = results.response.pages
         var temp: [TorrentGroup] = []
         for group in results.response.results {
-            temp.append(TorrentGroup(group))
+            temp.append(TorrentGroup(group, tracker: tracker))
         }
         groups = temp
         successful = results.status == "success"
