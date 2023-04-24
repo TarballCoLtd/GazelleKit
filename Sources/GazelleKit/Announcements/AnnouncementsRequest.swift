@@ -111,6 +111,9 @@ public class Announcements: Identifiable {
         self.blogPosts = temp2
         successful = announcements.status == "success"
         self.requestJson = requestJson
+        
+        self.announcements.reverse()
+        self.blogPosts.reverse()
     }
     
     public func containsNullAnnouncements() -> Bool {
