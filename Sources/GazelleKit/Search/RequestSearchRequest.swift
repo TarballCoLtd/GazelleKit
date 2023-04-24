@@ -134,7 +134,6 @@ public extension GazelleAPI {
         var description: String
         var catalogueNumber: String
         var releaseType: Int?
-        var bitrateList: [String]
         var formatList: [Int: String]
         var logCue: String
         var isFilled: Bool
@@ -161,7 +160,6 @@ public extension GazelleAPI {
         var description: String
         var catalogueNumber: String
         var releaseType: Int?
-        var bitrateList: [String]
         var formatList: [Int: String]
         var logCue: String
         var isFilled: Bool
@@ -270,7 +268,7 @@ public class Request: Identifiable {
         } else {
             releaseType = ""
         }
-        bitrateList = request.bitrateList
+        bitrateList = []
         var temp2: [String] = []
         for (_, format) in request.formatList {
             temp2.append(format)
@@ -314,7 +312,7 @@ public class Request: Identifiable {
         } else {
             releaseType = ""
         }
-        bitrateList = request.bitrateList
+        bitrateList = []
         var temp2: [String] = []
         for (_, format) in request.formatList {
             temp2.append(format)
