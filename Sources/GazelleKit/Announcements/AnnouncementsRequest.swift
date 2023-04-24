@@ -20,7 +20,7 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        return try Announcements(announcements: decoder.decode(RedactedAnnouncements.self, from: data), requestJson: json)
+        return try Announcements(announcements: decoder.decode(RedactedAnnouncements.self, from: data), requestJson: json, tracker: tracker)
     }
 
     internal struct RedactedAnnouncements: Codable {
@@ -98,7 +98,7 @@ public class Announcements: Identifiable {
     public let successful: Bool
     public let requestJson: [String: Any]?
     
-    internal init(announcements: GazelleAPI.RedactedAnnouncements, requestJson: [String: Any]?) {
+    internal init(announcements: GazelleAPI.RedactedAnnouncements, requestJson: [String: Any]?, tracker: GazelleTracker) {
         var temp: [Announcement] = []
         for announcement in announcements.response.announcements {
             temp.append(Announcement(announcement))
@@ -112,8 +112,10 @@ public class Announcements: Identifiable {
         successful = announcements.status == "success"
         self.requestJson = requestJson
         
-        self.announcements.reverse()
-        self.blogPosts.reverse()
+        if tracker == .redacted {
+            self.announcements.reverse()
+            self.blogPosts.reverse()
+        }
     }
     
     public func containsNullAnnouncements() -> Bool {
