@@ -45,11 +45,15 @@ public extension GazelleAPI {
         print(json as Any)
         #endif
         let decoder = JSONDecoder()
-        let req = try? RequestSearchResults(results: decoder.decode(OrpheusRequestSearch.self, from: data), requestJson: json, requestSize: data.count)
-        if let req = req {
-            return req
+        do {
+            return try RequestSearchResults(results: decoder.decode(OrpheusRequestSearch.self, from: data), requestJson: json, requestSize: data.count)
+        } catch {
+            #if DEBUG
+            print(error)
+            #endif
+            return try RequestSearchResults(results: decoder.decode(OrpheusRequestSearch2.self, from: data), requestJson: json, requestSize: data.count)
         }
-        return try RequestSearchResults(results: decoder.decode(OrpheusRequestSearch2.self, from: data), requestJson: json, requestSize: data.count)
+        
     }
     
     internal struct RedactedRequestSearch: Codable {
