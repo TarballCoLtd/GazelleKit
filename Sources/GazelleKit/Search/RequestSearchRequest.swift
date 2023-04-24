@@ -197,6 +197,7 @@ public class Request: Identifiable {
     public let releaseType: String?
     public let bitrateList: [String]
     public let formatList: [String]
+    public let mediaList: [String]
     public let logCue: String
     public let isFilled: Bool
     public let fillerId: Int
@@ -231,6 +232,7 @@ public class Request: Identifiable {
         releaseType = request.releaseType
         bitrateList = request.bitrateList
         formatList = request.formatList
+        mediaList = request.mediaList
         logCue = request.logCue
         isFilled = request.isFilled
         fillerId = request.fillerId
@@ -274,6 +276,7 @@ public class Request: Identifiable {
             temp2.append(format)
         }
         formatList = temp2
+        mediaList = []
         logCue = request.logCue
         isFilled = request.isFilled
         fillerId = request.fillerId
@@ -317,6 +320,7 @@ public class Request: Identifiable {
             temp2.append(format)
         }
         formatList = temp2
+        mediaList = []
         logCue = request.logCue
         isFilled = request.isFilled
         fillerId = request.fillerId
