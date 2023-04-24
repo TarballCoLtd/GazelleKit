@@ -134,6 +134,6 @@ public class Inbox {
         for conversation in inbox.response.messages {
             conversations.append(InboxConversation(conversation))
         }
-        self.conversations = conversations
+        self.conversations = tracker == .orpheus ? conversations.reversed() : conversations
     }
 }
