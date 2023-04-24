@@ -36,7 +36,7 @@ public extension GazelleAPI {
     
     internal struct RedactedTorrentSearchResultsResponseResults: Codable {
         var cover: String?
-        var groupId: Int
+        var groupId: String
         var groupName: String
         var artist: String?
         var tags: [String]
@@ -91,7 +91,7 @@ public extension GazelleAPI {
 public class TorrentGroup: Identifiable {
     public let id = UUID()
     public let cover: String?
-    public let groupId: Int
+    public let groupId: String
     public let groupName: String
     public let artist: String?
     public let tags: [String]
