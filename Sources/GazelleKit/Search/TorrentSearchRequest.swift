@@ -76,7 +76,7 @@ public extension GazelleAPI {
         var leechers: Int
         var isFreeleech: Bool
         var isNeutralLeech: Bool
-        var isFreeload: Bool
+        var isFreeload: Bool?
         var isPersonalFreeleech: Bool
         var canUseToken: Bool
     }
@@ -202,7 +202,11 @@ public class Torrent: Identifiable {
         leechers = torrent.leechers
         isFreeleech = torrent.isFreeleech
         isNeutralLeech = torrent.isNeutralLeech
-        isFreeload = torrent.isFreeload
+        if let freeload = torrent.isFreeload {
+            isFreeload = freeload
+        } else {
+            isFreeload = false
+        }
         isPersonalFreeleech = torrent.isPersonalFreeleech
         canUseToken = torrent.canUseToken
     }
