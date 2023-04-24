@@ -39,7 +39,7 @@ public extension GazelleAPI {
         var avatar: String
         var isFriend: Bool
         var profileText: String
-        var bbProfileText: String
+        var bbProfileText: String?
         //var profileAlbum: RedactedProfileAlbum
         var stats: RedactedUserStats_UserProfile
         var ranks: RedactedUserRanks
@@ -134,7 +134,7 @@ public class UserProfile: Profile {
     public let avatar: String
     public let isFriend: Bool
     public let profileText: String
-    public let bbProfileText: String
+    public let bbProfileText: String?
     // public let profileAlbum
     public let joinedDate: Date
     public let lastSeen: Date?
