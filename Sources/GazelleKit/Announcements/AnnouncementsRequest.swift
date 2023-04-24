@@ -76,7 +76,7 @@ public class BlogPost: Identifiable {
     public let author: Int
     public let bbBody: String
     public let blogId: Int
-    public let blogTime: String
+    public let time: Date?
     public let body: String
     public let threadId: Int
     public let title: String
@@ -85,7 +85,9 @@ public class BlogPost: Identifiable {
         author = blogPost.author
         bbBody = blogPost.bbBody
         blogId = blogPost.blogId
-        blogTime = blogPost.blogTime
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        time = formatter.date(from: blogPost.blogTime)
         body = blogPost.body
         threadId = blogPost.threadId
         title = blogPost.title
