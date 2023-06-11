@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 public class GazelleAPI: ObservableObject {
     public var apiKey: String
